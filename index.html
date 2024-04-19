@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alarm Clock</title>
+</head>
+<style>
+    .timer {
+        border: 2px solid black;
+        width: fit-content;
+        background-color: red;
+    }
+
+    .timer input,
+    button {
+        border: 2px solid black;
+        margin: 4px;
+    }
+</style>
+
+<body>
+    <div class="container" style="    height: 40px;width: 121px;">
+
+    </div>
+    <div class="timer">
+        <h2>Timer</h2>
+        <input type="number" id="inputHou" placeholder="In Hours">
+        <input type="number" id="inputMin" placeholder="In Minutes">
+        <input type="number" id="inputSec" placeholder="In seconds">
+
+        <button onclick="getTime(0)">Submit time</button>
+
+        <div id="timeLeft"></div>
+    </div>
+    <div class="alarm">
+        <h2>Alarm</h2>
+        <input type="number" id="inputHou" placeholder="In Hours">
+        <input type="number" id="inputMin" placeholder="In Minutes">
+        <input type="number" id="inputSec" placeholder="In seconds">
+
+        <button onclick="getTime(1)">Submit time</button>
+    </div>
+
+
+    <script>
+        let container = document.getElementsByClassName('container')[0]
+
+        function playSound(sec) {
+
+            console.log('playsound running');
+
+            // console.log(sec);
+            setTimeout(() => {
+
+                let audio = new Audio('https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg')
+                console.log('play');
+                audio.play()
+            }, sec * 1000);
+
+        }
+
+
+        function getTime(val) {
+            let inputSec = document.getElementById('inputSec')
+            let inputMin = document.getElementById('inputMin')
+            let inputHou = document.getElementById('inputHou')
+            // console.log('runned get time function');
+            let inputTimeValue;
+            let inputTimeValueMin;
+            let inputTimeValueHou;
+            inputTimeValue = parseInt(inputSec.value)
+            inputTimeValueMin = parseInt(inputMin.value)
+            inputTimeValueHou = parseInt(inputHou.value)
+            if (isNaN(inputTimeValue) && isNaN(parseInt(inputMin.value)) && isNaN(parseInt(inputHou.value))) {
+                alert('Please add value first')
+            }
+            else {
+                let d;
+                d = new Date().getTime()
+                console.log('else runned');
+
+                // to convert NaN variable to number 0 , so that further calculation can be done
+                isNaN(inputTimeValue) ? inputTimeValue = 0 : inputTimeValue = inputTimeValue
+                isNaN(inputTimeValueMin) ? inputTimeValueMin = 0 : inputTimeValueMin = inputTimeValueMin
+                isNaN(inputTimeValueHou) ? inputTimeValueHou = 0 : inputTimeValueHou = inputTimeValueHou
+
+
+                inputTimeValue = inputTimeValue + (inputTimeValueMin * 60) + (inputTimeValueHou * 60 * 60)
+                // console.log(inputTimeValue);
+                if (val == 0) {
+
+                    playSound(inputTimeValue);
+                }
+                else if (val == 1) {
+
+                }
+
+                let d2;
+                let a = setInterval(() => {
+                    d2 = new Date().getTime()
+
+
+
+                    let secLeft = -((d2) - (d + inputTimeValue * 1000))
+                    console.log(secLeft);
+                    if (secLeft > 0) {
+
+                        timeLeft.innerHTML = `Alarm ringing in  ${Math.floor((secLeft / 1000) / 3600)} :  ${Math.floor(((secLeft / 1000) % 3600) / 60)} :  ${Math.floor((secLeft / 1000) % 60)}`
+                    }
+                    else {
+                        clearInterval(a)
+                    }
+                });
+
+            }
+
+
+        }
+
+
+        {
+            // To display current date and time
+            setInterval(() => {
+                let d = new Date()
+
+                // console.log(`Date : ${d.toDateString()} \nTime : ${d.toTimeString()} \n   `);
+                container.innerHTML = `Date : ${d.getDate()}/${d.getMonth()}/${d.getFullYear()} <br> Time : ${d.getHours() % 12} : ${d.getMinutes()} : ${d.getSeconds()}    `
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
