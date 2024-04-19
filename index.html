@@ -36,10 +36,14 @@
     </div>
     <div class="alarm">
         <h2>Alarm</h2>
-        <input type="number" id="inputHou" placeholder="In Hours">
-        <input type="number" id="inputMin" placeholder="In Minutes">
-        <input type="number" id="inputSec" placeholder="In seconds">
-
+        <input type="number" id="inputHouC" placeholder="In Hours">
+        <input type="number" id="inputMinC" placeholder="In Minutes">
+        <input type="number" id="inputSecC" placeholder="In seconds">
+        <label for="indicator"> Identifiers</label>
+        <select name="indi" id="indicators">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+        </select>
         <button onclick="getTime(1)">Submit time</button>
     </div>
 
@@ -66,20 +70,62 @@
             let inputSec = document.getElementById('inputSec')
             let inputMin = document.getElementById('inputMin')
             let inputHou = document.getElementById('inputHou')
-            // console.log('runned get time function');
+
+
             let inputTimeValue;
             let inputTimeValueMin;
             let inputTimeValueHou;
             inputTimeValue = parseInt(inputSec.value)
             inputTimeValueMin = parseInt(inputMin.value)
             inputTimeValueHou = parseInt(inputHou.value)
-            if (isNaN(inputTimeValue) && isNaN(parseInt(inputMin.value)) && isNaN(parseInt(inputHou.value))) {
+
+
+            if (val == 1) {
+                // for alarm
+                let inputSecC = document.getElementById('inputSecC')
+                let inputMinC = document.getElementById('inputMinC')
+                let inputHouC = document.getElementById('inputHouC')
+                let indicators = document.getElementById('indicators')
+              
+                let selectedOption = indicators.options[indicators.selectedIndex].value
+
+                let inputTimeValueC;
+                let inputTimeValueMinC;
+                let inputTimeValueHouC;
+                let d = new Date().getTime()
+
+                inputTimeValueC = parseInt(inputSecC.value)
+                inputTimeValueMinC = parseInt(inputMinC.value)
+                inputTimeValueHouC = parseInt(inputHouC.value)
+
+
+
+                if (inputTimeValueC < new Date().getSeconds() || inputTimeValueC > 59) {
+
+                    alert('Seconds should not be less than current time nor greater than 59 sec')
+                    return ;
+                }
+                if (inputMinC < new Date().getSeconds() || inputMinC > 59) {
+
+                    alert('minutes should not be less than current time nor greater than 59 min')
+                    return ;
+                }
+                if (inputHouC < new Date().getSeconds() || inputHouC > 12) {
+
+                    alert('hours should not be less than current time nor greater than 12 hours')
+                    return ;
+                }
+
+            }
+            //for timer
+            else if (isNaN(inputTimeValue) && isNaN(parseInt(inputMin.value)) && isNaN(parseInt(inputHou.value))) {
                 alert('Please add value first')
             }
             else {
                 let d;
                 d = new Date().getTime()
                 console.log('else runned');
+
 
                 // to convert NaN variable to number 0 , so that further calculation can be done
                 isNaN(inputTimeValue) ? inputTimeValue = 0 : inputTimeValue = inputTimeValue
@@ -89,13 +135,10 @@
 
                 inputTimeValue = inputTimeValue + (inputTimeValueMin * 60) + (inputTimeValueHou * 60 * 60)
                 // console.log(inputTimeValue);
-                if (val == 0) {
 
-                    playSound(inputTimeValue);
-                }
-                else if (val == 1) {
+                playSound(inputTimeValue);
 
-                }
+
 
                 let d2;
                 let a = setInterval(() => {
