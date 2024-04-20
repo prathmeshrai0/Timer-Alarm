@@ -86,35 +86,44 @@
                 let inputMinC = document.getElementById('inputMinC')
                 let inputHouC = document.getElementById('inputHouC')
                 let indicators = document.getElementById('indicators')
-              
+
                 let selectedOption = indicators.options[indicators.selectedIndex].value
 
                 let inputTimeValueC;
                 let inputTimeValueMinC;
                 let inputTimeValueHouC;
+                let totalTimeC;
                 let d = new Date().getTime()
 
                 inputTimeValueC = parseInt(inputSecC.value)
                 inputTimeValueMinC = parseInt(inputMinC.value)
                 inputTimeValueHouC = parseInt(inputHouC.value)
 
+                
+                isNaN(inputTimeValueC) ? inputTimeValueC = 0 : inputTimeValueC = inputTimeValueC
+                isNaN(inputTimeValueMinC) ? inputTimeValueMinC = 0 : inputTimeValueMinC = inputTimeValueMinC
+                isNaN(inputTimeValueHouC) ? inputTimeValueHouC = 0 : inputTimeValueHouC = inputTimeValueHouC
+                console.log(inputTimeValueC, inputTimeValueMinC, inputTimeValueHouC);
+                
+totalTimeC = ( inputTimeValueHouC *60)*60 + (inputTimeValueMinC * 60) + inputTimeValueC;
+console.log(totalTimeC);
 
-
-                if (inputTimeValueC < new Date().getSeconds() || inputTimeValueC > 59) {
+                if ( inputTimeValueC > 59) {
 
                     alert('Seconds should not be less than current time nor greater than 59 sec')
-                    return ;
+                    return;
                 }
-                if (inputMinC < new Date().getSeconds() || inputMinC > 59) {
+                if ( inputTimeValueMinC > 59) {
 
                     alert('minutes should not be less than current time nor greater than 59 min')
-                    return ;
+                    return;
                 }
-                if (inputHouC < new Date().getSeconds() || inputHouC > 12) {
+                if ( inputTimeValueHouC > 12) {
 
                     alert('hours should not be less than current time nor greater than 12 hours')
-                    return ;
+                    return;
                 }
+               
 
             }
             //for timer
